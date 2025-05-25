@@ -1,0 +1,80 @@
+
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { sampleQuestions } from "../data/sampleQuestions";
+import HomeNavbar from "../components/HomeNavbar"
+
+const QuestionsList = () => {
+  const { section } = useParams();
+  const questions = sampleQuestions[section] || [];
+  const [selected, setSelected] = useState(null);
+  const [selectedQuestion, setSelectedQuestion] = useState(null);
+  const navigate = useNavigate();
+
+  const handleQuestionClick = (question) => {
+    setSelectedQuestion(question);
+    navigate(`/code-editor/${section}/${question.id}`);
+  // Navigate to the code editor page with the selected question
+  };
+
+  return (
+    <>
+   <HomeNavbar/>
+   
+      <div className="flex flex-col md:flex-row flex-grow p-4 bg-black text-white overflow-y-auto  overflow-x-hidden ">
+        <div className="md:w-1/3 border-r border-gray-700 overflow-y-auto pr-4 scroll-smooth ">
+          <h2 className="text-2xl font-bold mb-4">{section} Questions</h2>
+          <ul className="space-y-4">
+            {questions.map((q, i) => (
+              <motion.li
+                key={q.id}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className={`cursor-pointer p-4 rounded-lg transition duration-300 border-l-4 ${selected?.id === q.id ? "bg-violet-700 border-violet-400" : "bg-gray-800 border-gray-600"
+                  }`}
+                onClick={() => setSelected(q)}
+              >
+                <h3 className="font-semibold">{q.title}</h3>
+                <p className="text-sm text-gray-400">Difficulty: {q.difficulty}</p>
+              </motion.li>
+            ))}
+          </ul>
+        </div>
+  
+        <div className="md:w-2/3 p-6">
+          <AnimatePresence mode="wait">
+            {selected ? (
+              <motion.div
+                key={selected.id}
+                initial={{ opacity: 0, x: 50, scale: 0.98 }}
+                animate={{ opacity: 1, x: 0, scale: 1 }}
+                exit={{ opacity: 0, x: -50, scale: 0.98 }}
+                transition={{ duration: 0.4, ease: "easeInOut" }}
+                className="bg-gray-800 p-6 rounded-xl shadow-xl h-full overflow-y-auto max-h-[85vh] scroll-smooth "
+              >
+                <h2 className="text-2xl font-bold mb-4">{selected.title}</h2>
+                <div className="text-gray-300 mb-4 text-justify" style={{ whiteSpace: "pre-wrap" }}>{selected.description}</div>
+                <button
+                onClick={() => handleQuestionClick(selected)} className="mt-4 px-6 py-2 bg-violet-700 hover:bg-violet-950 rounded-lg text-white font-semibold cursor-pointer">
+                  Solve Now
+                </button>
+              </motion.div>
+            ) : (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="text-center text-gray-400 mt-20"
+              >
+                <p className="text-2xl">Select a question to view details</p>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default QuestionsList;
