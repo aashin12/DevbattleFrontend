@@ -1,5 +1,4 @@
 import React from 'react'
-import '../styles/LandingPage.css'
 import Navvbar from '../components/navbar/Navvbar'
 import Hero from '../components/Hero/Hero'
 
