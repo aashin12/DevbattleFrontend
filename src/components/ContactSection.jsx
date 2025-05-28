@@ -29,34 +29,34 @@ const ContactSection = () => {
         {/* Contact + Form Container */}
         <div className="flex flex-col lg:flex-row gap-12 w-full max-w-6xl justify-between">
           {/* Contact Info */}
-          
+
           <div className="flex-1 text-center lg:text-left space-y-4 bg-gray-800 bg-opacity-40 p-6 rounded-2xl shadow-md border border-purple-700">
-  <h3 className="text-3xl font-semibold mb-4">Contact Details</h3>
+            <h3 className="text-3xl font-semibold mb-4">Contact Details</h3>
 
-  <div className="space-y-5 text-gray-300">
-    <p><span className="font-semibold text-white">📧 Email:</span> support@devbattle.com</p>
-    <p><span className="font-semibold text-white">📞 Phone:</span> +91 12345 67890</p>
-    <p><span className="font-semibold text-white">📍 Address:</span> Ernakulam, Kerala</p>
-    <p><span className="font-semibold text-white">🕐 Support Hours:</span> Mon - Fri, 9:00 AM - 6:00 PM</p>
-    <p><span className="font-semibold text-white">📨 Business Inquiries:</span> business@devbattle.com</p>
-  </div>
+            <div className="space-y-5 text-gray-300">
+              <p><span className="font-semibold text-white">📧 Email:</span> support@devbattle.com</p>
+              <p><span className="font-semibold text-white">📞 Phone:</span> +91 12345 67890</p>
+              <p><span className="font-semibold text-white">📍 Address:</span> Ernakulam, Kerala</p>
+              <p><span className="font-semibold text-white">🕐 Support Hours:</span> Mon - Fri, 9:00 AM - 6:00 PM</p>
+              <p><span className="font-semibold text-white">📨 Business Inquiries:</span> business@devbattle.com</p>
+            </div>
 
-  {/* Social Media */}
-  <div className="pt-10">
-    <h4 className="text-3xl font-semibold mb-4 text-white">Follow Us</h4>
-    <div className="flex justify-center lg:justify-start gap-4 text-4xl text-violet-400">
-       <a href="https://github.com/" target="_blank" rel="noreferrer" className="hover:text-white">
-                    <FaGithub />
-                  </a>
-                  <a href="https://linkedin.com/" target="_blank" rel="noreferrer" className="hover:text-white ">
-                    <FaLinkedin />
-                  </a>
-                  <a href="https://twitter.com/" target="_blank" rel="noreferrer" className="hover:text-white">
-                    <FaTwitter />
-                  </a>
-    </div>
-  </div>
-</div>
+            {/* Social Media */}
+            <div className="pt-10">
+              <h4 className="text-3xl font-semibold mb-4 text-white">Follow Us</h4>
+              <div className="flex justify-center lg:justify-start gap-4 text-4xl text-violet-400">
+                <a href="https://github.com/" target="_blank" rel="noreferrer" className="hover:text-white">
+                  <FaGithub />
+                </a>
+                <a href="https://linkedin.com/" target="_blank" rel="noreferrer" className="hover:text-white ">
+                  <FaLinkedin />
+                </a>
+                <a href="https://twitter.com/" target="_blank" rel="noreferrer" className="hover:text-white">
+                  <FaTwitter />
+                </a>
+              </div>
+            </div>
+          </div>
 
           {/* Feedback Form */}
           <form className="flex-1 bg-gray-900 bg-opacity-60 p-8 rounded-2xl shadow-2xl space-y-6 border border-purple-700">

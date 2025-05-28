@@ -17,6 +17,8 @@ import ViewUsersPage from "./components/ViewUsersPage";
 import LeaderboardPage from "./pages/LeaderboardPage";
 import AboutSection from "./components/AboutSection";
 import ContactSection from "./components/ContactSection";
+import EditQuestion from "./pages/EditQuestion";
+import SavedSubmissions from "./pages/SavedSubmissions";
 
 function App() {
   return (
@@ -29,10 +31,12 @@ function App() {
         <Route path="/questions/:section" element={<QuestionsList />} />
         <Route path="/code-editor/:section/:id" element={<CodeEditor/>} />
         <Route path="/result" element={<ResultPage />} />
+        <Route path='/savedsubmission' element={<SavedSubmissions/>}/>
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/admin/view-questions" element={<ViewQuestions/>}/>
         <Route path="/question-detail/:combinedId" element={<QuestionDetail />} /> 
         <Route path="/admin/add-question" element={<AddQuestionPage/>}/>
+        <Route path="/admin/edit-question/:id" element={<EditQuestion />} />
         <Route path="/admin/view-users" element={<ViewUsersPage/>}/>
         <Route path="/admin/leaderboard" element={<LeaderboardPage/>}/>
         <Route path="/about" element={<AboutSection/>}/>

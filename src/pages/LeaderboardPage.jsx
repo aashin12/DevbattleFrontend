@@ -11,6 +11,7 @@ import {
 } from "recharts";
 import AdminHeader from "../components/AdminHeader";
 import AdminFooter from "../components/AdminFooter";
+import { getallusersApi } from "../services/allApi";
 
 const LeaderboardPage = () => {
   const [users, setUsers] = useState([]);
@@ -18,14 +19,20 @@ const LeaderboardPage = () => {
   const [sortBy, setSortBy] = useState("score");
 
   useEffect(() => {
-    const dummyData = [
-      { id: 1, name: "Aashin KB", score: 1200, submissions: 100, streak: 7 },
-      { id: 2, name: "Arjun R", score: 870, submissions: 110, streak: 6 },
-      { id: 3, name: "Divya M", score: 1020, submissions: 150, streak: 9 },
-      { id: 4, name: "Sana A", score: 810, submissions: 105, streak: 10 },
-      { id: 5, name: "Rahul S", score: 765, submissions: 95, streak: 4 },
-    ];
-    setUsers(dummyData);
+    const fetchLeaderboard = async () => {
+      try {
+        const res = await getallusersApi()
+        if (res.data.success) {
+          setUsers(res.data.user);
+        } else {
+          console.error("Failed to fetch users");
+        }
+      } catch (error) {
+        console.error("Error fetching leaderboard data:", error);
+      }
+    };
+
+    fetchLeaderboard();
   }, []);
 
   const filteredUsers = users

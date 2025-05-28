@@ -2,71 +2,46 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import AdminFooter from "./AdminFooter";
 import AdminHeader from "./AdminHeader";
+import { deleteUserApi, getallusersApi } from "../services/allApi";
 
 const ViewUsersPage = () => {
-  const sampleUsers = [
-    {
-      id: "1",
-      name: "Aashin KB",
-      email: "aashin@example.com",
-      role: "Admin",
-      submissions: 120,
-      streak: 15,
-      rank: 1,
-    },
-    {
-      id: "2",
-      name: "Arjun R",
-      email: "arjun@example.com",
-      role: "User",
-      submissions: 75,
-      streak: 4,
-      rank: 7,
-    },
-    {
-      id: "3",
-      name: "Divya M",
-      email: "divya@example.com",
-      role: "Moderator",
-      submissions: 98,
-      streak: 10,
-      rank: 4,
-    },
-    {
-      id: "4",
-      name: "Meera S",
-      email: "meera@example.com",
-      role: "User",
-      submissions: 55,
-      streak: 2,
-      rank: 12,
-    },
-    {
-      id: "5",
-      name: "Vivek V",
-      email: "vivek@example.com",
-      role: "User",
-      submissions: 145,
-      streak: 21,
-      rank: 2,
-    },
-  ];
-
+  
+  
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortBy, setSortBy] = useState("name");
 
   useEffect(() => {
-    setTimeout(() => {
-      setUsers(sampleUsers);
-      setLoading(false);
-    }, 500);
+    const fetchUsers = async () => {
+      try {
+        const res = await getallusersApi()
+        if (res.data?.success) {
+          setUsers(res.data.user);
+        }
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    fetchUsers();
   }, []);
 
-  const deleteUser = (id) => {
-    setUsers(users.filter((user) => user.id !== id));
+  const deleteUser = async (id) => {
+    try {
+      const res = await deleteUserApi(id);
+      if (res.data?.success) {
+        setUsers(users.filter((user) => user.id !== id));
+      } else {
+        console.error("Failed to delete user.");
+      }
+    } catch (error) {
+      console.error("Error deleting user:", error);
+    }
   };
+  
 
   const handleSearch = (e) => {
     setSearchTerm(e.target.value.toLowerCase());
@@ -76,18 +51,19 @@ const ViewUsersPage = () => {
     setSortBy(e.target.value);
   };
 
-  const filteredUsers = users
-    .filter(
+  const filteredUsers = Array.isArray(users)
+  ? users.filter(
       (user) =>
-        user.name.toLowerCase().includes(searchTerm) ||
-        user.email.toLowerCase().includes(searchTerm)
-    )
-    .sort((a, b) => {
+        user.name?.toLowerCase().includes(searchTerm) ||
+        user.email?.toLowerCase().includes(searchTerm)
+    ).sort((a, b) => {
       if (sortBy === "name") return a.name.localeCompare(b.name);
       if (sortBy === "submissions") return b.submissions - a.submissions;
       if (sortBy === "streak") return b.streak - a.streak;
       return 0;
-    });
+    })
+  : [];
+
 
   return (
     <>
@@ -139,11 +115,11 @@ const ViewUsersPage = () => {
                   <h3 className="text-xl font-semibold text-violet-300">
                     {user.name}
                   </h3>
-                  <p className="text-gray-400">Email: {user.email}</p>
-                  <p className="text-gray-400">Role: {user.role}</p>
-                  <p className="text-gray-400">Submissions: {user.submissions}</p>
-                  <p className="text-gray-400">Streak: {user.streak} 🔥</p>
-                  <p className="text-gray-400">Leaderboard Rank: #{user.rank}</p>
+                  <p className="text-white">Email: <span className="text-gray-400">{user.email}</span></p>
+                  <p className="text-white">Password: <span className="text-gray-400">{user.password}</span></p>
+                  <p className="text-white">Submissions:<span className="text-gray-400"> {user.submissions}</span></p>
+                  <p className="text-white">Streak: <span className="text-gray-400">{user.streak}</span> 🔥</p>
+                  <p className="text-white">Score:<span className="text-gray-400"> {user.score}</span></p>
                   <div className="mt-4 flex justify-end">
                     <button
                       onClick={() => deleteUser(user.id)}

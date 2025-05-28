@@ -14,12 +14,12 @@ const Footer = () => {
         </div>
 
         {/* Quick Links */}
-        <div className="ms-25">
+        <div className="md:ms-25">
           <h3 className="text-lg font-semibold mb-3 text-white ">Quick Links</h3>
           <ul className="space-y-2 text-sm">
-            <li><a href="/problems" className="hover:text-white transition">Problems</a></li>
-            <li><a href="/battle" className="hover:text-white transition">Battle Mode</a></li>
-            <li><a href="/leaderboard" className="hover:text-white transition">Leaderboard</a></li>
+            <li><a href="/home" className="hover:text-white transition">Problems</a></li>
+            <li><a href="/home" className="hover:text-white transition">Battle Mode</a></li>
+            <li><a href="/admin/leaderboard" className="hover:text-white transition">Leaderboard</a></li>
             <li><a href="/about" className="hover:text-white transition">About</a></li>
           </ul>
         </div>

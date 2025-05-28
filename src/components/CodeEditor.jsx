@@ -1,9 +1,10 @@
+//older code
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useParams } from "react-router-dom";
-import { sampleQuestions } from "../data/sampleQuestions";
 import Editor from "@monaco-editor/react";
 import { useNavigate } from "react-router-dom";
+import { getQuestionById } from "../services/allApi"; 
 
 export default function CodeEditor() {
 
@@ -35,10 +36,22 @@ export default function CodeEditor() {
 
 
   useEffect(() => {
-    const questions = sampleQuestions[section] || [];
-    const selected = questions.find(q => q.id === parseInt(id));
-    setQuestion(selected);
-  }, [section, id]);
+    const fetchQuestion = async () => {
+      try {
+        const res = await getQuestionById(id);
+        if (res?.data?.success) {
+          setQuestion(res.data.data);
+        } else {
+          alert("Question not found");
+        }
+      } catch (err) {
+        console.error("Failed to load question:", err);
+        alert("Failed to load question.");
+      }
+    };
+  
+    fetchQuestion();
+  }, [id]);
 
 
   const handleRunCode = async () => {
@@ -139,6 +152,11 @@ export default function CodeEditor() {
         }
       }
 
+      // ✅ Save to localStorage before navigating
+    localStorage.setItem("userCode", code);
+    localStorage.setItem("currentQuestion", JSON.stringify(question));
+    localStorage.setItem("selectedLanguage", language);
+
       navigate("/result", {
         state: {
           passed,
@@ -175,10 +193,27 @@ export default function CodeEditor() {
           </div>
 
           {question && (
-            <div className="mb-6">
-              <h2 className="text-2xl font-bold mb-2">{question.title}</h2>
-              <p className="text-gray-400 whitespace-pre-wrap text-justify">{question.description}</p>
+           <div className="space-y-4 mb-10">
+            <div>
+            <h2 className="text-3xl font-semibold">{question.title}</h2>
+
             </div>
+           <div>
+             <h2 className="text-lg font-semibold">Problem Statement:</h2>
+             <p className="text-gray-400">{question.problemStatement}</p>
+           </div>
+         
+           <div>
+             <h2 className="text-lg font-semibold">Input Format:</h2>
+             <p className="text-gray-400">{question.inputFormat}</p>
+           </div>
+         
+           <div>
+             <h2 className="text-lg font-semibold">Output Format:</h2>
+             <p className="text-gray-400">{question.outputFormat}</p>
+           </div>
+         </div>
+         
           )}
 
           <div className="flex justify-between items-center mb-4">
@@ -189,7 +224,7 @@ export default function CodeEditor() {
                 setLanguage(newLang);
                 setCode(getDefaultCode(newLang));
               }}
-              className="bg-gray-800 text-white border border-gray-600 px-4 py-2 rounded-xl">
+              className="bg-gray-800 text-white border border-gray-600 px-4 py-2 rounded-xl cursor-pointer">
               <option value="javascript">JavaScript</option>
               <option value="python">Python</option>
               <option value="cpp">C++</option>
@@ -198,7 +233,7 @@ export default function CodeEditor() {
             <button
               onClick={handleRunCode}
               disabled={isRunning}
-              className={`px-4 py-2 rounded-xl flex items-center gap-2 transition duration-300 ${isRunning
+              className={`px-4 py-2 rounded-xl flex items-center gap-2 transition cursor-pointer duration-300 ${isRunning
                 ? "bg-gray-700 cursor-not-allowed"
                 : "bg-violet-600 hover:bg-violet-800"
                 }`}
@@ -327,7 +362,7 @@ export default function CodeEditor() {
             <button
               onClick={handleSubmitCode}
               disabled={isSubmitting}
-              className={`px-4 py-2 rounded-xl flex items-center gap-2 transition duration-300 ${isSubmitting
+              className={`px-4 py-2 rounded-xl flex items-center gap-2 transition cursor-pointer duration-300 ${isSubmitting
                 ? "bg-gray-700 cursor-not-allowed"
                 : "bg-green-600 hover:bg-green-700"
                 }`}
@@ -337,7 +372,7 @@ export default function CodeEditor() {
                   <motion.div
                     animate={{ rotate: 360 }}
                     transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
-                    className="w-4 h-4 border-2 border-t-2 border-white rounded-full border-t-transparent"
+                    className="w-4 h-4 border-2 border-t-2 border-white  rounded-full border-t-transparent "
                   />
                   Submitting...
                 </>

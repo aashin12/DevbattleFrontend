@@ -1,6 +1,7 @@
 import { Home, PlusSquare, Users, BarChart3, LayoutDashboard } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
+
 
 const navLinks = [
   { name: 'Dashboard', icon: <LayoutDashboard />, to: '/admin' },
@@ -21,15 +22,19 @@ export const Sidebar = () => {
         <div className="text-3xl font-bold text-violet-400 mb-6 mt-4"> Admin Control</div>
         <nav className="space-y-3">
           {navLinks.map((link, index) => (
-            <Link
+            <NavLink
               key={index}
               to={link.to}
-              className="flex items-center gap-3 px-4 py-2 rounded-xl hover:bg-violet-700 transition-colors"
+              className={({ isActive }) =>
+                `flex items-center gap-3 px-4 py-2 rounded-xl transition-colors ${isActive ? 'bg-violet-700' : 'hover:bg-violet-700'
+                }`
+              }
             >
               <span className="text-violet-300">{link.icon}</span>
               <span className="text-white font-medium">{link.name}</span>
-            </Link>
+            </NavLink>
           ))}
+
         </nav>
 
         <div className="mt-10 border-t border-gray-600 pt-4 text-sm text-gray-400">

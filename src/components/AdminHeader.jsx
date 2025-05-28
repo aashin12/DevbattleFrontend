@@ -51,7 +51,7 @@ export default function AdminHeader() {
         {/* Logout Button */}
         <button
           onClick={handleLogout}
-          className="ml-3 bg-red-600 text-sm text-white px-3 py-1 rounded hover:bg-red-700 duration-300"
+          className="ml-3 bg-red-600 text-sm text-white px-3 py-1 rounded hover:bg-red-700 duration-300 cursor-pointer"
         >
           Logout
         </button>

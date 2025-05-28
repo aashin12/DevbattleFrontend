@@ -1,9 +1,17 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import { saveSubmissionApi } from "../services/allApi";
+import { toast, ToastContainer } from "react-toastify";
+import { useState } from "react";
 
 export default function ResultPage() {
   const { state } = useLocation();
   const navigate = useNavigate();
+
+  const userId = JSON.parse(sessionStorage.getItem("existingUser"))?._id;
+  const userCode = localStorage.getItem("userCode");
+  const currentQuestion = JSON.parse(localStorage.getItem("currentQuestion"));
+  const selectedLanguage = localStorage.getItem("selectedLanguage");
 
   if (!state) {
     return (
@@ -17,10 +25,55 @@ export default function ResultPage() {
   }
 
   const { passed, failed, total, details, language } = state;
+  const [saving, setSaving] = useState(false);
+
+  const saveSubmission = async () => {
+    if (
+      
+      !userId ||
+      !currentQuestion?._id ||
+      !userCode ||
+      !selectedLanguage ||
+      selectedLanguage === "null" ||
+      selectedLanguage === "undefined"
+    ) {
+      toast.warning("❗ Cannot save: Incomplete data or not all test cases passed.");
+      return;
+    }
+
+    if (passed !== total) {
+      toast.info("⚠️ Note: Not all test cases passed. Saving anyway.");
+    }
+    
+
+    try {
+      setSaving(true);
+      const payload = {
+        userId,
+        questionId: currentQuestion._id,
+        language: selectedLanguage,
+        code: userCode,
+        submittedAt: new Date().toISOString(),
+        passedTestCases: passed,
+        totalTestCases: total
+      };
+
+      const res = await saveSubmissionApi(payload);
+      if (res?.data?.success) {
+        toast.success("✅ Code saved successfully!");
+      } else {
+        toast.error("❌ Failed to save code.");
+        console.error("Save failed:", res);
+      }
+    } catch (err) {
+      toast.error("❌ Error occurred while saving.");
+      console.error("SaveSubmission Error:", err);
+    } finally {
+      setSaving(false);
+    }
+  };
 
   return (
-    <>
-    
     <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-gray-800 text-white p-6">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -28,7 +81,8 @@ export default function ResultPage() {
         transition={{ duration: 0.5 }}
         className="max-w-4xl mx-auto"
       >
-        <h1 className="text-4xl font-bold text-violet-500 mb-4">Submission Results</h1>
+        <h1 className="text-4xl font-bold text-white mb-4">Submission Results</h1>
+
         <div className="bg-gray-800 p-4 rounded-xl shadow-lg mb-6 border-2 border-purple-700">
           <p><span className="text-green-400">Passed:</span> {passed}</p>
           <p><span className="text-red-400">Failed:</span> {failed}</p>
@@ -49,16 +103,30 @@ export default function ResultPage() {
           ))}
         </div>
 
-        <div className="mt-8 text-center">
+        <div className="mt-8 text-center space-y-4 space-x-4">
           <button
             onClick={() => navigate(-1)}
             className="bg-violet-600 hover:bg-violet-700 px-6 py-3 rounded-lg cursor-pointer"
           >
             Try Again
           </button>
+          <button
+            onClick={() => navigate("/savedsubmission")}
+            className="bg-green-600 hover:bg-green-700 px-6 py-3 rounded-lg cursor-pointer"
+          >
+            View Saved Submissions
+          </button>
+          <button
+            onClick={saveSubmission}
+            className={`px-6 py-3 cursor-pointer rounded-lg ${saving ? "bg-gray-500 cursor-not-allowed" : "bg-yellow-600 hover:bg-yellow-700"}`}
+            disabled={saving}
+          >
+            {saving ? "Saving..." : "Save Code"}
+          </button>
         </div>
+
+        <ToastContainer theme="colored" position="top-center" autoClose={2000} />
       </motion.div>
     </div>
-    </>
   );
 }

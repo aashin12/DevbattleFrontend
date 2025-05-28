@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { FaArrowCircleLeft, FaArrowCircleRight } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 const cards = [
@@ -87,18 +88,20 @@ const Homecardcarousel = () => {
         {/* Left Arrow */}
         <button
           onClick={prevSlide}
-          className="hidden md:block absolute left-4 top-1/2 transform -translate-y-1/2 z-10 bg-gray-800 text-white p-3 rounded-full hover:bg-gray-600"
+          className="hidden md:block absolute left-18 top-1/2 transform -translate-y-1/2 z-10 bg-gray-800 text-white text-5xl rounded-full hover:bg-black cursor-pointer"
         >
-          &#8592;
+          {/* &#8592; */}
+          <FaArrowCircleLeft/>
         </button>
 
 
         {/* Right Arrow */}
         <button
           onClick={nextSlide}
-          className="hidden md:block absolute right-4 top-1/2 transform -translate-y-1/2 z-10 bg-gray-800 text-white p-3 rounded-full hover:bg-gray-600"
+          className="hidden md:block absolute right-18 top-1/2 transform -translate-y-1/2 z-10 bg-gray-800 text-white text-5xl rounded-full hover:bg-black cursor-pointer"
         >
-          &#8594;
+          {/* &#8594; */}
+          <FaArrowCircleRight/>
         </button>
 
         {/* Card Container */}

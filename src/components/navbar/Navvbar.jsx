@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import "../../styles/navbar.css";
 import { HiMiniSquares2X2 } from 'react-icons/hi2';
 import ResponsiveMenu from './ResponsiveMenu';
+import { Link } from 'react-router-dom';
 
 const Navvbar = () => {
     const [showMenu,setShowMenu] = useState(false);
@@ -26,24 +27,26 @@ const Navvbar = () => {
                 {/* menu section */}
                 <ul className='hidden md:flex flex-row items-center gap-4 lg:gap-8 text-lg'>
                     <li>
-                        <a href="#" className='inline-block px-3 py-2 hover:text-pink-400 transition-colors duration-200'>Home</a>
+                        <a href="/login" className='inline-block px-3 py-2 hover:text-pink-400 transition-colors duration-200'>Home</a>
                     </li>
                     <li>
-                        <a href="#"
+                        <a href="/login"
                         className='inline-block px-3 py-2 hover:text-pink-400 transition-colors duration-200'>About</a>
                     </li>
                     <li>
-                        <a href="#"
+                        <a href="/login"
                         className='inline-block px-3 py-2 hover:text-pink-400 transition-colors duration-200'>Sections</a>
                     </li>
                     <li>
-                        <a href="#"
+                        <a href="/login"
                         className='inline-block px-3 py-2 hover:text-pink-400 transition-colors duration-200'>Contact Us</a>
                     </li>
-                    <li>
-                        <button className='border-2 border-pink-400  px-6 py-2 rounded-full hover-bg-secondary
-                        ' style={{height:"3rem",width:"7rem"}}>Login</button>
-                    </li>
+                    <Link to={'/login'}>
+                        <li>
+                            <button className='border-2 border-pink-400  px-6 py-2 rounded-full hover-bg-secondary
+                            ' style={{height:"3rem",width:"7rem"}}>Login</button>
+                        </li>
+                    </Link>
                 </ul>
 
                 {/* hamburger menu section */}

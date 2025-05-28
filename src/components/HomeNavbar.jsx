@@ -9,7 +9,7 @@ const NavbarMenu = [
   { id: 2, title: "About", link: "/about", delay: "0.4" },
   { id: 3, title: "Section", link: "#section", delay: "0.6" },
   { id: 4, title: "Contact", link: "/contact", delay: "0.8" },
-  { id: 5, title: "Settings", link: "/home", delay: "1" },
+  { id: 5, title: "Submissions", link: "/savedsubmission", delay: "1" },
 ];
 
 const slideRight = (delay) => ({
@@ -129,7 +129,7 @@ const HomeNavbar = () => {
             {isLoggedIn ? (
               <button
                 onClick={handleLogout}
-                className="hidden md:flex text-sm bg-red-600 px-3 py-1 rounded hover:bg-red-700 duration-300"
+                className="hidden md:flex text-sm bg-red-600 px-3 py-1 rounded hover:bg-red-700 duration-300 cursor-pointer"
               >
                 Logout
               </button>

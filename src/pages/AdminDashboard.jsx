@@ -49,7 +49,7 @@ const AdminDashboard = () => {
           </div>
 
           <div className="bg-gray-800 p-4 rounded-2xl shadow-md border border-violet-700 hover:shadow-violet-700 transition duration-300">
-            <h2 className="text-lg font-semibold text-gray-200">User Sentiment</h2>
+            <h2 className="text-lg font-semibold text-gray-200">User Response</h2>
             <ResponsiveContainer width="100%" height={200}>
               <PieChart>
                 <Pie data={pieData} dataKey="value" cx="50%" cy="50%" outerRadius={60} label>
