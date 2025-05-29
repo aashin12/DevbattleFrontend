@@ -26,21 +26,28 @@ const Navvbar = () => {
                     DevBattle</h1>
                 {/* menu section */}
                 <ul className='hidden md:flex flex-row items-center gap-4 lg:gap-8 text-lg'>
+                   <Link to={'/login'}>
                     <li>
-                        <a href="/login" className='inline-block px-3 py-2 hover:text-pink-400 transition-colors duration-200'>Home</a>
+                        <p className='inline-block px-3 py-2 hover:text-pink-400 transition-colors duration-200'>Home</p>
                     </li>
+                    </Link>
+                    <Link to={'/login'}>
                     <li>
-                        <a href="/login"
-                        className='inline-block px-3 py-2 hover:text-pink-400 transition-colors duration-200'>About</a>
+                        <p className='inline-block px-3 py-2 hover:text-pink-400 transition-colors duration-200'>About</p>
                     </li>
+                    </Link>
+                    <Link to={'/login'}>
                     <li>
-                        <a href="/login"
-                        className='inline-block px-3 py-2 hover:text-pink-400 transition-colors duration-200'>Sections</a>
+                        <p
+                        className='inline-block px-3 py-2 hover:text-pink-400 transition-colors duration-200'>Sections</p>
                     </li>
+                    </Link>
+                    <Link to={'/login'}>
                     <li>
-                        <a href="/login"
-                        className='inline-block px-3 py-2 hover:text-pink-400 transition-colors duration-200'>Contact Us</a>
+                        <p
+                        className='inline-block px-3 py-2 hover:text-pink-400 transition-colors duration-200'>Contact Us</p>
                     </li>
+                    </Link>
                     <Link to={'/login'}>
                         <li>
                             <button className='border-2 border-pink-400  px-6 py-2 rounded-full hover-bg-secondary
