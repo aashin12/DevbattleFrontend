@@ -12,26 +12,39 @@ const QuestionsList = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchQuestions = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const response = await getQuestionsByCategory(section);
-        if (response && response.data && response.data.success) {
-          setQuestions(response.data.data);
-        } else {
-          setQuestions([]);
-          setError("No questions found for this category.");
-        }
-      } catch (err) {
-        setError("Failed to fetch questions. Please try again.");
-      }
-      setLoading(false);
-    };
+ useEffect(() => {
+  const fetchQuestions = async () => {
+    setLoading(true);
+    setError(null);
 
-    fetchQuestions();
-  }, [section]);
+    const storedToken = sessionStorage.getItem('token');
+    if (!storedToken) {
+      setError("You are not logged in... Please login again.");
+      setLoading(false);
+      return;
+    }
+
+    const reqHeader = {
+      'Authorization': `Bearer ${storedToken}`
+    };
+    // console.log("Header:", reqHeader);
+
+    try {
+      const response = await getQuestionsByCategory(section, reqHeader);
+      if (response && response.data && response.data.success) {
+        setQuestions(response.data.data);
+      } else {
+        setQuestions([]);
+        setError("No questions found for this category.");
+      }
+    } catch (err) {
+      setError("Failed to fetch questions. Please try again.");
+    }
+    setLoading(false);
+  };
+
+  fetchQuestions();
+}, [section]);
 
   const handleQuestionClick = (question) => {
     setSelected(question);

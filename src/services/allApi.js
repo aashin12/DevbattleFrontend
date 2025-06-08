@@ -17,8 +17,8 @@ export const googleLoginApi = async(reqBody)=>{
 }
 
 //To get questions list
-export const getQuestionsByCategory = async(category) => {
-    return await commonApi('GET', `${serverUrl}/questions/category/${category}`);
+export const getQuestionsByCategory = async(category,reqHeader) => {
+    return await commonApi('GET', `${serverUrl}/questions/category/${category}`,'',reqHeader);
   }
   
  // for code editor to get selected question
